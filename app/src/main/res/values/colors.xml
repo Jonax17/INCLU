@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="inclu_primary">#1A237E</color>
+    <color name="inclu_primary_dark">#000051</color>
+    <color name="inclu_accent">#536DFE</color>
+    <color name="inclu_background">#FFFFFF</color>
+</resources>
