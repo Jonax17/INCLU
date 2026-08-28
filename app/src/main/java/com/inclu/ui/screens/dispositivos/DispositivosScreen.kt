@@ -1,22 +1,19 @@
-
 package com.inclu.ui.screens.dispositivos
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.inclu.ui.components.*
 
-@OptIn(ExperimentalMaterial3Api::class)
+data class DeviceItem(val name: String, val type: String, val status: String, val battery: Int, val id: String)
+
 @Composable
 fun DispositivosScreen(navController: NavController) {
     val devices = remember {
@@ -27,52 +24,41 @@ fun DispositivosScreen(navController: NavController) {
         )
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Mis dispositivos") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
-                    }
-                }
+    IncluScaffold(title = "Mis dispositivos", onBack = { navController.popBackStack() }) { padding ->
+        ScreenColumn(padding) {
+            Text(
+                "Dispositivos Bluetooth Low Energy compatibles.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-        }
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Text("Bluetooth Low Energy", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(16.dp))
-            devices.forEach { device ->
-                DeviceCard(device)
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+            devices.forEach { DeviceCard(it) }
         }
     }
 }
 
-data class DeviceItem(val name: String, val type: String, val status: String, val battery: Int, val id: String)
-
 @Composable
 fun DeviceCard(device: DeviceItem) {
-    Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(defaultElevation = 4.dp), shape = MaterialTheme.shapes.large) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(device.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Text(device.type, fontSize = 14.sp, color = Color.Gray)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row {
-                Text("Estado: ${device.status}", fontSize = 14.sp)
-                Text("Batería: ${device.battery}%", fontSize = 14.sp, modifier = Modifier.padding(start = 16.dp))
+    ElevatedCard(modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.large) {
+        Column(Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconContainer(icon = Icons.Default.Bluetooth, tint = MaterialTheme.colorScheme.primary)
+                Spacer(Modifier.width(12.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(device.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                    Text(device.type, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                AssistChip(onClick = { }, label = { Text(device.status) })
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { /* connect */ }) { Text("Conectar") }
-                Button(onClick = { /* disconnect */ }) { Text("Desconectar") }
+            Spacer(Modifier.height(12.dp))
+            Text(
+                "Batería: ${device.battery}%",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(Modifier.height(12.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Button(onClick = { }, modifier = Modifier.weight(1f), shape = MaterialTheme.shapes.large) { Text("Conectar") }
+                OutlinedButton(onClick = { }, modifier = Modifier.weight(1f), shape = MaterialTheme.shapes.large) { Text("Desconectar") }
             }
         }
     }
