@@ -12,6 +12,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
 private fun Context.findLifecycleOwner(): LifecycleOwner? {
@@ -70,4 +72,58 @@ fun CameraPreview(
 
     AndroidView(factory = { previewView }, modifier = modifier)
     return camera
+}
+
+@Composable
+fun BarcodeScannerPreview(
+    onScanned: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = remember(context) { context.findLifecycleOwner() }
+    val previewView = remember { PreviewView(context) }
+    var done by remember { mutableStateOf(false) }
+    val providerFuture = remember { ProcessCameraProvider.getInstance(context) }
+    val scanner = remember { BarcodeScanning.getClient() }
+
+    LaunchedEffect(Unit) {
+        val owner = lifecycleOwner ?: return@LaunchedEffect
+        providerFuture.addListener({
+            try {
+                val provider = providerFuture.get()
+                val preview = Preview.Builder().build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
+                val analysis = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .build()
+                analysis.setAnalyzer(ContextCompat.getMainExecutor(context)) { proxy ->
+                    val mediaImage = proxy.image
+                    if (mediaImage != null && !done) {
+                        val input = InputImage.fromMediaImage(mediaImage, proxy.imageInfo.rotationDegrees)
+                        scanner.process(input)
+                            .addOnSuccessListener { barcodes ->
+                                for (b in barcodes) {
+                                    val value = b.displayValue
+                                    if (!value.isNullOrEmpty()) {
+                                        done = true
+                                        onScanned(value)
+                                        break
+                                    }
+                                }
+                            }
+                            .addOnCompleteListener { proxy.close() }
+                    } else {
+                        proxy.close()
+                    }
+                }
+                provider.unbindAll()
+                provider.bindToLifecycle(owner, CameraSelector.DEFAULT_BACK_CAMERA, preview, analysis)
+            } catch (e: Exception) {
+                Log.e("BarcodeScanner", "Binding failed", e)
+            }
+        }, ContextCompat.getMainExecutor(context))
+    }
+
+    AndroidView(factory = { previewView }, modifier = modifier)
 }

@@ -40,12 +40,69 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Color(0xFFE8EAF6)
 )
 
+private val HighContrastScheme = darkColorScheme(
+    primary = Color.White,
+    onPrimary = Color.Black,
+    primaryContainer = Color(0xFF1A1A1A),
+    onPrimaryContainer = Color.White,
+    secondary = Color.White,
+    onSecondary = Color.Black,
+    background = Color.Black,
+    onBackground = Color.White,
+    surface = Color(0xFF0A0A0A),
+    onSurface = Color.White,
+    error = Color(0xFFFF5252),
+    onError = Color.Black,
+    tertiary = Color.White
+)
+
+private fun ColorScheme.inverted(): ColorScheme {
+    fun Color.invert(): Color = Color(1f - red, 1f - green, 1f - blue, alpha)
+    return copy(
+        primary = primary.invert(),
+        onPrimary = onPrimary.invert(),
+        primaryContainer = primaryContainer.invert(),
+        onPrimaryContainer = onPrimaryContainer.invert(),
+        secondary = secondary.invert(),
+        onSecondary = onSecondary.invert(),
+        secondaryContainer = secondaryContainer.invert(),
+        onSecondaryContainer = onSecondaryContainer.invert(),
+        tertiary = tertiary.invert(),
+        onTertiary = onTertiary.invert(),
+        tertiaryContainer = tertiaryContainer.invert(),
+        onTertiaryContainer = onTertiaryContainer.invert(),
+        background = background.invert(),
+        onBackground = onBackground.invert(),
+        surface = surface.invert(),
+        onSurface = onSurface.invert(),
+        surfaceVariant = surfaceVariant.invert(),
+        onSurfaceVariant = onSurfaceVariant.invert(),
+        surfaceTint = surfaceTint.invert(),
+        inverseSurface = inverseSurface.invert(),
+        inverseOnSurface = inverseOnSurface.invert(),
+        error = error.invert(),
+        onError = onError.invert(),
+        errorContainer = errorContainer.invert(),
+        onErrorContainer = onErrorContainer.invert(),
+        outline = outline.invert(),
+        outlineVariant = outlineVariant.invert(),
+        scrim = scrim.invert()
+    )
+}
+
 @Composable
 fun INCLUTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    highContrast: Boolean = false,
+    invert: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val baseScheme = when {
+        highContrast -> HighContrastScheme
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
+    }
+    val colorScheme = if (invert) baseScheme.inverted() else baseScheme
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,

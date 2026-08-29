@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inclu.data.model.AccessiblePlace
+
+val LocalLargeButtons = compositionLocalOf { false }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,7 +105,7 @@ fun FeatureTile(
 ) {
     ElevatedCard(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().defaultMinSize(minHeight = if (LocalLargeButtons.current) 96.dp else 76.dp),
         shape = MaterialTheme.shapes.large,
         colors = CardDefaults.elevatedCardColors(containerColor = containerColor)
     ) {
@@ -144,7 +147,7 @@ fun PrimaryButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().defaultMinSize(minHeight = if (LocalLargeButtons.current) 60.dp else 50.dp),
         enabled = enabled,
         shape = MaterialTheme.shapes.large
     ) {
@@ -161,7 +164,7 @@ fun TonalButton(
 ) {
     FilledTonalButton(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().defaultMinSize(minHeight = if (LocalLargeButtons.current) 60.dp else 50.dp),
         enabled = enabled,
         shape = MaterialTheme.shapes.large
     ) {
@@ -239,7 +242,7 @@ fun HapticTile(label: String, description: String, color: Color, onClick: () -> 
 }
 
 @Composable
-fun PlaceItem(place: AccessiblePlace) {
+fun PlaceItem(place: AccessiblePlace, distance: String? = null) {
     ElevatedCard(modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.large) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -259,6 +262,14 @@ fun PlaceItem(place: AccessiblePlace) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                if (distance != null) {
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        "Distancia: $distance",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }

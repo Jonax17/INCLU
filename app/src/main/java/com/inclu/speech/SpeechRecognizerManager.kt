@@ -22,6 +22,15 @@ class SpeechRecognizerManager(private val context: Context) {
     val error: LiveData<String?> = _error
 
     private var speechRecognizer: SpeechRecognizer? = null
+    private var language: String = "es-ES"
+
+    fun setLanguage(locale: String) {
+        language = locale
+    }
+
+    fun clearText() {
+        _recognizedText.postValue("")
+    }
 
     fun startListening() {
         try {
@@ -73,7 +82,8 @@ class SpeechRecognizerManager(private val context: Context) {
             })
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
+                putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                 putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
             }
             speechRecognizer?.startListening(intent)

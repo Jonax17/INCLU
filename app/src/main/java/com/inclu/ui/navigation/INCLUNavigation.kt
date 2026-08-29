@@ -19,6 +19,7 @@ import com.inclu.ui.screens.modo_tactil.ModoTactilScreen
 import com.inclu.ui.screens.orientarme.OrientarmeScreen
 import com.inclu.ui.screens.dispositivos.DispositivosScreen
 import com.inclu.ui.screens.accesibilidad.AccesibilidadScreen
+import com.inclu.ui.screens.codigo_qr.CodigoQrScreen
 import com.inclu.ui.screens.demo.DemoScreen
 import com.inclu.ui.viewmodels.DashboardViewModel
 import com.inclu.ui.viewmodels.SettingsViewModel
@@ -40,6 +41,7 @@ sealed class ScreenRoute(val route: String) {
     object ModoTactil : ScreenRoute("modo_tactil")
     object Mapa : ScreenRoute("mapa")
     object Dispositivos : ScreenRoute("dispositivos")
+    object CodigoQr : ScreenRoute("codigo_qr")
     object Demo : ScreenRoute("demo")
 }
 
@@ -76,7 +78,7 @@ fun INCLUNavigation(
             OrientarmeScreen(navController = navController)
         }
         composable(ScreenRoute.Emergencia.route) {
-            EmergenciaScreen(navController = navController)
+            EmergenciaScreen(navController = navController, settingsViewModel = settingsViewModel)
         }
         composable(ScreenRoute.Accesibilidad.route) {
             AccesibilidadScreen(settingsViewModel = settingsViewModel)
@@ -101,6 +103,9 @@ fun INCLUNavigation(
         }
         composable(ScreenRoute.Dispositivos.route) {
             DispositivosScreen(navController = navController)
+        }
+        composable(ScreenRoute.CodigoQr.route) {
+            CodigoQrScreen(navController = navController)
         }
         composable(ScreenRoute.Demo.route) {
             DemoScreen(navController = navController)

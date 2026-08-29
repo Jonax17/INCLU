@@ -24,12 +24,32 @@ fun EscucharScreen(navController: NavController, speechViewModel: SpeechViewMode
     val isListening by recognizer.isListening.observeAsState(false)
     val error by recognizer.error.observeAsState(null)
 
+    var lang by remember { mutableStateOf("es-ES") }
+    val langOptions = listOf("es-ES" to "Español", "en-US" to "English")
+
     DisposableEffect(recognizer) {
         onDispose { recognizer.stopListening() }
     }
 
     IncluScaffold(title = "Escuchar", onBack = { navController.popBackStack() }) { padding ->
         ScreenColumn(padding) {
+            Text(
+                "Convierte voz en texto en tiempo real.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                langOptions.forEach { (code, label) ->
+                    FilterChip(
+                        selected = lang == code,
+                        onClick = {
+                            lang = code
+                            recognizer.setLanguage(code)
+                        },
+                        label = { Text(label) }
+                    )
+                }
+            }
             InfoCard(
                 title = "Texto reconocido",
                 body = recognized.ifEmpty { "Presiona \"Escuchar\" y habla para convertir tu voz en texto." }
@@ -45,7 +65,10 @@ fun EscucharScreen(navController: NavController, speechViewModel: SpeechViewMode
             PrimaryButton(
                 text = if (isListening) "Detener" else "Escuchar",
                 onClick = {
-                    if (isListening) recognizer.stopListening() else recognizer.startListening()
+                    if (isListening) recognizer.stopListening() else {
+                        recognizer.setLanguage(lang)
+                        recognizer.startListening()
+                    }
                 }
             )
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -61,6 +84,11 @@ fun EscucharScreen(navController: NavController, speechViewModel: SpeechViewMode
                     modifier = Modifier.weight(1f)
                 )
             }
+            TonalButton(
+                text = "Limpiar",
+                onClick = { recognizer.clearText() },
+                enabled = recognized.isNotEmpty()
+            )
         }
     }
 }

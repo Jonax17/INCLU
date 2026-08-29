@@ -3,37 +3,28 @@ package com.inclu.speech
 import android.content.Context
 import android.os.Build
 import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
 import java.util.Locale
 
 class TTSManager(context: Context) {
     private var tts: TextToSpeech? = null
-    private var initialized = false
+    private var ready = false
     private val appContext = context.applicationContext
 
     fun initialize() {
+        if (tts != null) return
         try {
             tts = TextToSpeech(appContext) { status ->
                 if (status == TextToSpeech.SUCCESS) {
-                    val result = tts?.setLanguage(Locale.getDefault())
-                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        initialized = false
-                    } else {
-                        initialized = true
-                        tts?.setSpeechRate(0.9f)
-                        tts?.setPitch(1.0f)
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                                override fun onStart(utteranceId: String?) {}
-                                override fun onDone(utteranceId: String?) {
-                                    synchronized(this) {
-                                        initialized = false
-                                    }
-                                }
-                                override fun onError(utteranceId: String?) {}
-                            })
+                    val preferred = listOf(Locale.getDefault(), Locale("es", "ES"), Locale.US)
+                    for (loc in preferred) {
+                        val res = tts?.setLanguage(loc) ?: TextToSpeech.LANG_NOT_SUPPORTED
+                        if (res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED) {
+                            ready = true
+                            break
                         }
                     }
+                    tts?.setSpeechRate(0.9f)
+                    tts?.setPitch(1.0f)
                 }
             }
         } catch (e: Exception) {
@@ -42,17 +33,20 @@ class TTSManager(context: Context) {
     }
 
     fun speak(text: String) {
-        if (initialized) {
-            try {
-                val params = android.os.Bundle()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, params, "inclus_speak")
-                } else {
-                    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+        if (text.isBlank()) return
+        if (!ready) {
+            initialize()
+            return
+        }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "inclu_speak")
+            } else {
+                @Suppress("DEPRECATION")
+                tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null)
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -64,9 +58,16 @@ class TTSManager(context: Context) {
         }
     }
 
-    fun isInitialized(): Boolean = initialized
+    fun isReady(): Boolean = ready
 
     fun shutdown() {
-        tts?.shutdown()
+        try {
+            tts?.stop()
+            tts?.shutdown()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        tts = null
+        ready = false
     }
 }
