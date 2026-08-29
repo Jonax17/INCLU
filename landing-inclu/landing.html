@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="INCLU — Tecnología que incluye. Plataforma de inclusión y accesibilidad para personas con discapacidad." />
+  <meta name="theme-color" content="#0D1451" />
+  <title>INCLU — Tecnología que incluye</title>
+  <style>
+    :root {
+      --dark-blue: #0D1451;
+      --medium-blue: #1A237E;
+      --light-blue: #5C6BC0;
+      --very-light-blue: #C5CAE9;
+      --dark-gray: #212121;
+      --medium-gray: #757575;
+      --light-gray: #BDBDBD;
+      --very-light-gray: #EEEEEE;
+      --card-bg: #F5F5F5;
+      --accent: #6200EE;
+      --teal: #03DAC6;
+      --white: #FFFFFF;
+      --shadow: 0 4px 14px rgba(13,20,81,0.12);
+      --shadow-lg: 0 12px 40px rgba(13,20,81,0.18);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --font: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); color: var(--dark-gray); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    button { font-family: var(--font); cursor: pointer; border: none; }
+    a { text-decoration: none; }
+    img { max-width: 100%; }
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+
+    /* NAVBAR */
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(13,20,81,0.97); backdrop-filter: blur(6px); color: var(--white); }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; color: var(--white); }
+    .navbar-logo svg { width: 34px; height: 34px; }
+    .navbar-links { display: flex; align-items: center; gap: 24px; }
+    .navbar-links a { color: var(--very-light-blue); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .navbar-links a:hover { color: var(--teal); }
+    .btn-nav { background: var(--teal); color: var(--dark-blue); font-weight: 700; padding: 10px 18px; border-radius: 999px; font-size: 0.95rem; transition: transform 0.2s, background 0.2s; }
+    .btn-nav:hover { transform: translateY(-2px); background: #2cebd3; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 60%, var(--light-blue) 100%); color: var(--white); padding: 90px 0 100px; position: relative; overflow: hidden; }
+    .hero .container { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 50px; align-items: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); padding: 6px 14px; border-radius: 999px; font-size: 0.85rem; color: var(--teal); font-weight: 600; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.1; margin-bottom: 16px; font-weight: 800; }
+    .hero h1 .accent { color: var(--teal); }
+    .hero p.subtitle { font-size: 1.15rem; color: var(--very-light-blue); max-width: 520px; margin-bottom: 32px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn-primary { background: var(--teal); color: var(--dark-blue); font-weight: 700; padding: 14px 26px; border-radius: 999px; font-size: 1rem; transition: transform 0.2s, background 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary:hover { transform: translateY(-2px); background: #2cebd3; }
+    .btn-ghost { background: transparent; color: var(--white); font-weight: 600; padding: 14px 26px; border-radius: 999px; font-size: 1rem; border: 2px solid rgba(255,255,255,0.5); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+    .hero-stats { display: flex; gap: 30px; margin-top: 40px; }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-size: 2rem; font-weight: 800; color: var(--teal); display: block; }
+    .hero-stat .label { font-size: 0.85rem; color: var(--very-light-blue); }
+    .hero-visual { display: flex; justify-content: center; }
+    .hero-devices { display: flex; gap: 16px; align-items: flex-end; }
+    .device-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 20px; backdrop-filter: blur(4px); text-align: center; min-width: 120px; }
+    .device-card .icon { font-size: 2.5rem; margin-bottom: 8px; }
+    .device-card .name { font-size: 0.85rem; font-weight: 600; color: var(--white); }
+
+    /* SECTIONS */
+    .section { padding: 80px 0; }
+    .section-head { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+    .section-head .eyebrow { color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem; margin-bottom: 12px; }
+    .section-head h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--dark-blue); margin-bottom: 12px; font-weight: 800; }
+    .section-head p { color: var(--medium-gray); font-size: 1.05rem; }
+
+    /* PROJECT CARDS */
+    .projects-grid { display: flex; flex-direction: column; gap: 40px; }
+    .project-card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--very-light-gray); overflow: hidden; transition: box-shadow 0.3s; }
+    .project-card:hover { box-shadow: var(--shadow-lg); }
+    .project-inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 420px; }
+    .project-inner.reverse { direction: rtl; }
+    .project-inner.reverse > * { direction: ltr; }
+    .project-info { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+    .project-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--very-light-blue); color: var(--medium-blue); padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; width: fit-content; }
+    .project-info h3 { font-size: 1.6rem; color: var(--dark-blue); margin-bottom: 10px; font-weight: 800; }
+    .project-info > p { color: var(--medium-gray); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.7; }
+    .project-features { list-style: none; margin-bottom: 24px; }
+    .project-features li { padding: 5px 0; color: var(--dark-gray); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 8px; }
+    .project-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+    .project-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-sm { padding: 10px 20px; border-radius: 999px; font-size: 0.88rem; font-weight: 600; transition: transform 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-sm:hover { transform: translateY(-2px); }
+    .btn-blue { background: var(--medium-blue); color: var(--white); }
+    .btn-blue:hover { background: var(--dark-blue); }
+    .btn-teal { background: var(--teal); color: var(--dark-blue); }
+    .btn-teal:hover { background: #2cebd3; }
+    .btn-outline { background: transparent; color: var(--medium-blue); border: 2px solid var(--medium-blue); }
+    .btn-outline:hover { background: var(--medium-blue); color: var(--white); }
+    .project-preview { background: var(--card-bg); display: flex; align-items: center; justify-content: center; padding: 30px; position: relative; overflow: hidden; }
+    .preview-mock { width: 100%; max-width: 360px; }
+
+    /* MOCK: Phone */
+    .mock-phone { background: var(--white); border-radius: 28px; padding: 8px; box-shadow: var(--shadow-lg); max-width: 280px; margin: 0 auto; }
+    .mock-phone-screen { background: linear-gradient(180deg, #1A237E 0%, #283593 100%); border-radius: 22px; padding: 16px; min-height: 380px; color: var(--white); }
+    .mock-phone-header { text-align: center; margin-bottom: 16px; }
+    .mock-phone-header .logo-text { font-size: 1.1rem; font-weight: 800; letter-spacing: 1px; }
+    .mock-phone-header .sub { font-size: 0.7rem; color: var(--very-light-blue); }
+    .mock-module { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .mock-module .m-icon { font-size: 1.4rem; }
+    .mock-module .m-label { font-weight: 600; font-size: 0.85rem; }
+    .mock-module .m-desc { font-size: 0.65rem; color: var(--very-light-blue); }
+
+    /* MOCK: Writer */
+    .mock-writer { background: #FAFAFA; border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; max-width: 400px; margin: 0 auto; border: 1px solid #E0E0E0; }
+    .mock-writer-sidebar { background: var(--dark-blue); padding: 16px; min-height: 200px; }
+    .mock-writer-sidebar .ws-logo { color: var(--white); font-weight: 800; font-size: 0.9rem; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+    .mock-writer-sidebar .ws-item { color: rgba(255,255,255,0.5); font-size: 0.75rem; padding: 6px 0; }
+    .mock-writer-sidebar .ws-item.active { color: var(--white); background: rgba(255,255,255,0.1); border-radius: 6px; padding: 6px 8px; }
+    .mock-writer-body { padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mock-cam { background: #222; border-radius: 8px; height: 100px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 0.7rem; position: relative; overflow: hidden; }
+    .mock-cam::after { content: ''; position: absolute; width: 40px; height: 40px; border: 2px solid var(--teal); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .mock-text { background: var(--white); border-radius: 8px; height: 100px; border: 1px solid #E0E0E0; padding: 10px; font-size: 0.7rem; color: var(--dark-gray); }
+    .mock-text .typed { color: var(--dark-blue); font-weight: 600; }
+    .mock-text .cursor { display: inline-block; width: 2px; height: 12px; background: var(--teal); animation: blink 1s infinite; vertical-align: middle; }
+    @keyframes blink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
+    .mock-btns { display: flex; gap: 6px; padding: 8px 16px 16px; }
+    .mock-btn { flex: 1; padding: 6px; border-radius: 6px; font-size: 0.65rem; font-weight: 600; text-align: center; }
+    .mock-btn.blue { background: var(--medium-blue); color: var(--white); }
+    .mock-btn.teal { background: var(--teal); color: var(--dark-blue); }
+
+    /* MOCK: Training Chart */
+    .mock-chart { background: var(--white); border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; max-width: 400px; margin: 0 auto; border: 1px solid #E0E0E0; }
+    .mock-chart img { width: 100%; display: block; }
+    .mock-chart-caption { padding: 12px 16px; font-size: 0.75rem; color: var(--medium-gray); text-align: center; background: var(--card-bg); }
+
+    /* TECH STACK */
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .tech-card { background: var(--card-bg); border-radius: var(--radius-sm); padding: 20px; text-align: center; border: 1px solid transparent; transition: border-color 0.2s; }
+    .tech-card:hover { border-color: var(--very-light-blue); }
+    .tech-card .icon { font-size: 2rem; margin-bottom: 8px; }
+    .tech-card h4 { font-size: 0.95rem; color: var(--dark-blue); margin-bottom: 4px; }
+    .tech-card p { font-size: 0.8rem; color: var(--medium-gray); }
+
+    /* CTA */
+    .cta { text-align: center; padding: 90px 0; background: var(--very-light-gray); }
+    .cta h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--dark-blue); margin-bottom: 14px; font-weight: 800; }
+    .cta p { color: var(--medium-gray); margin-bottom: 30px; font-size: 1.05rem; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    .footer { background: var(--dark-blue); color: var(--very-light-blue); padding: 50px 0 30px; }
+    .footer .container { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+    .footer h4 { color: var(--white); margin-bottom: 14px; font-size: 1rem; }
+    .footer a { color: var(--very-light-blue); display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+    .footer a:hover { color: var(--teal); }
+    .footer-brand p { margin-top: 12px; font-size: 0.9rem; max-width: 280px; }
+    .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 20px; font-size: 0.85rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero .container { grid-template-columns: 1fr; text-align: center; }
+      .hero-actions { justify-content: center; }
+      .hero p.subtitle { margin-left: auto; margin-right: auto; }
+      .hero-visual { display: none; }
+      .hero-stats { justify-content: center; }
+      .project-inner { grid-template-columns: 1fr; }
+      .project-inner.reverse { direction: ltr; }
+      .project-preview { min-height: 260px; }
+      .footer .container { grid-template-columns: 1fr 1fr; }
+      .navbar-links { gap: 14px; }
+      .navbar-links a { font-size: 0.85rem; }
+    }
+    @media (max-width: 600px) {
+      .hero { padding: 60px 0 70px; }
+      .section { padding: 50px 0; }
+      .project-info { padding: 24px; }
+      .footer .container { grid-template-columns: 1fr; }
+      .navbar-links .hide-mobile { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <a href="#" class="navbar-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
+        <rect width="108" height="108" rx="20" fill="#1A237E"/>
+        <circle cx="54" cy="36" r="10" fill="#FFF"/>
+        <path d="M47 58h14a3 3 0 013 3v23a3 3 0 01-3 3H47a3 3 0 01-3-3V61a3 3 0 013-3z" fill="#FFF"/>
+        <path d="M44 66l-7-4a3 3 0 010-4l3-3a3 3 0 015 2L44 66z" fill="#FFF"/>
+        <path d="M64 66l7-4a3 3 0 000-4l-3-3a3 3 0 00-5 2l1 5z" fill="#FFF"/>
+        <path d="M41 74a3 3 0 014 4l-8 8a3 3 0 01-4-4z" fill="#03DAC6"/>
+        <path d="M67 74a3 3 0 00-4 4l8 8a3 3 0 004-4z" fill="#03DAC6"/>
+      </svg>
+      INCLU
+    </a>
+    <div class="navbar-links">
+      <a href="#proyectos" class="hide-mobile">Proyectos</a>
+      <a href="#tecnologias" class="hide-mobile">Stack</a>
+      <a href="https://github.com/Jonax17/INCLU" target="_blank">GitHub</a>
+      <a href="#descargas" class="btn-nav">Descargar</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div>
+      <span class="hero-badge">Tecnología que incluye</span>
+      <h1>Un ecosistema de <span class="accent">inclusión</span> y accesibilidad para todos</h1>
+      <p class="subtitle">
+        INCLU es una plataforma integral que combina inteligencia artificial, visión por computadora, voz, háptica, Bluetooth y geolocalización para帮助ar a personas con discapacidad a interactuar con su entorno.
+      </p>
+      <div class="hero-actions">
+        <a href="#descargas" class="btn-primary">Descargar apps</a>
+        <a href="#proyectos" class="btn-ghost">Ver proyectos</a>
+        <a href="https://github.com/Jonax17/INCLU" target="_blank" class="btn-ghost">GitHub</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="num">4+</span><span class="label">Proyectos</span></div>
+        <div class="hero-stat"><span class="num">98.3%</span><span class="label">Precisión LSN</span></div>
+        <div class="hero-stat"><span class="num">11.6K</span><span class="label">Muestras entrenadas</span></div>
+        <div class="hero-stat"><span class="num">6</span><span class="label">Módulos Android</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-devices">
+        <div class="device-card"><div class="icon">📱</div><div class="name">Android App</div></div>
+        <div class="device-card"><div class="icon">🖥️</div><div class="name">Writer PC</div></div>
+        <div class="device-card"><div class="icon">⌚</div><div class="name">INCLU Band</div></div>
+        <div class="device-card"><div class="icon">🦯</div><div class="name">INCLU Cane</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROYECTOS -->
+<section class="section" id="proyectos">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Proyectos</span>
+      <h2>Todo el ecosistema INCLU</h2>
+      <p>Cada proyecto está diseñado para cubrir una necesidad concreta de accesibilidad e inclusión.</p>
+    </div>
+    <div class="projects-grid">
+
+      <!-- ANDROID APP -->
+      <div class="project-card">
+        <div class="project-inner">
+          <div class="project-info">
+            <span class="project-tag">📱 Android</span>
+            <h3>INCLU App</h3>
+            <p>Aplicación Android de inclusión y accesibilidad para personas con discapacidad visual, auditiva, sordociega y motora. Six módulos que combinan cámara, voz, vibración, Bluetooth, NFC y GPS.</p>
+            <ul class="project-features">
+              <li><strong>Ver:</strong> Lector de texto con cámara + voz, lupa inteligente, escáner de documentos</li>
+              <li><strong>Escuchar:</strong> Transcripción de voz en tiempo real para personas sordas</li>
+              <li><strong>Sentir:</strong> Lenguaje háptico de vibraciones (izquierda, derecha, peligro, stop, destino, ayuda)</li>
+              <li><strong>Orientarme:</strong> Mapa de lugares accesibles, navegación interior (QR/NFC) y exterior (GPS)</li>
+              <li><strong>Emergencia:</strong> Alerta SOS con vibración y ubicación</li>
+              <li><strong>Dispositivos:</strong> Conexión BLE con INCLU Band, Cane y Glove</li>
+            </ul>
+            <div class="project-actions">
+              <a href="https://github.com/Jonax17/INCLU/releases" target="_blank" class="btn-sm btn-blue">Descargar APK</a>
+              <a href="https://github.com/Jonax17/INCLU" target="_blank" class="btn-sm btn-outline">Ver código fuente</a>
+            </div>
+          </div>
+          <div class="project-preview">
+            <div class="mock-phone">
+              <div class="mock-phone-screen">
+                <div class="mock-phone-header">
+                  <div class="logo-text">INCLU</div>
+                  <div class="sub">Tecnología que incluye</div>
+                </div>
+                <div class="mock-module"><span class="m-icon">👁️</span><div><div class="m-label">Ver</div><div class="m-desc">Cámara + lupa + lector</div></div></div>
+                <div class="mock-module"><span class="m-icon">👂</span><div><div class="m-label">Escuchar</div><div class="m-desc">Voz → texto en tiempo real</div></div></div>
+                <div class="mock-module"><span class="m-icon">📳</span><div><div class="m-label">Sentir</div><div class="m-desc">Vibraciones con significado</div></div></div>
+                <div class="mock-module"><span class="m-icon">🗺️</span><div><div class="m-label">Orientarme</div><div class="m-desc">GPS + lugares accesibles</div></div></div>
+                <div class="mock-module"><span class="m-icon">🆘</span><div><div class="m-label">Emergencia</div><div class="m-desc">SOS con ubicación</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INCLU WRITER -->
+      <div class="project-card">
+        <div class="project-inner reverse">
+          <div class="project-info">
+            <span class="project-tag">🖥️ Desktop</span>
+            <h3>INCLU Writer</h3>
+            <p>Reconocimiento en tiempo real del alfabeto manual del Lenguaje de Señas Nicaragüense (LSN) mediante MediaPipe Hand Landmarks y una red neuronal MLP entrenada con más de 11,600 muestras.</p>
+            <ul class="project-features">
+              <li>78 features: 21 landmarks × 3 coordenadas + 5 ángulos + 10 distancias</li>
+              <li>MLP profunda: 78 → 512 → 256 → 128 → 64 → 26 con BatchNorm y Dropout</li>
+              <li>98.31% de precisión en test (88 epochs, class weights, augmentation)</li>
+              <li>Soporte para letras con movimiento (J, S, X, Z) en 3 fases</li>
+              <li>Interfaz completa con autocomplete y predicción de siguiente palabra en español</li>
+              <li>Ejecutable standalone (~39 MB) — no necesita Python instalado</li>
+            </ul>
+            <div class="project-actions">
+              <a href="https://github.com/Imandro/inclu-writer/releases/tag/v1.0" target="_blank" class="btn-sm btn-teal">Descargar EXE</a>
+              <a href="https://github.com/Imandro/inclu-writer" target="_blank" class="btn-sm btn-outline">Ver código fuente</a>
+              <a href="https://github.com/Jonax17/INCLU/tree/inclu-writer" target="_blank" class="btn-sm btn-outline">En INCLU repo</a>
+            </div>
+          </div>
+          <div class="project-preview" style="background:#F0F0F5;">
+            <div class="mock-writer">
+              <div style="display:grid;grid-template-columns:100px 1fr;">
+                <div class="mock-writer-sidebar">
+                  <div class="ws-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" style="width:20px;height:20px;">
+                      <rect width="108" height="108" rx="20" fill="#FFF"/>
+                      <circle cx="54" cy="36" r="10" fill="#1A237E"/>
+                      <path d="M47 58h14a3 3 0 013 3v23a3 3 0 01-3 3H47a3 3 0 01-3-3V61a3 3 0 013-3z" fill="#1A237E"/>
+                      <path d="M41 74a3 3 0 014 4l-8 8a3 3 0 01-4-4z" fill="#03DAC6"/>
+                      <path d="M67 74a3 3 0 00-4 4l8 8a3 3 0 004-4z" fill="#03DAC6"/>
+                    </svg>
+                    INCLU
+                  </div>
+                  <div class="ws-item active">Cámara</div>
+                  <div class="ws-item">Historial</div>
+                  <div class="ws-item">Configuración</div>
+                  <div class="ws-item">Ayuda</div>
+                </div>
+                <div>
+                  <div class="mock-writer-body" style="grid-template-columns:1fr;">
+                    <div class="mock-cam">Cámara con esqueleto VR</div>
+                    <div class="mock-text">
+                      <div style="font-size:0.6rem;color:#999;margin-bottom:4px;">ESCRITURA</div>
+                      <div class="typed">Hola mundo</div><span class="cursor"></span>
+                    </div>
+                  </div>
+                  <div class="mock-btns">
+                    <div class="mock-btn blue">Limpiar</div>
+                    <div class="mock-btn blue">Borrar</div>
+                    <div class="mock-btn teal">Espacio</div>
+                    <div class="mock-btn teal">Guardar</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IA / ENTRENAMIENTO -->
+      <div class="project-card">
+        <div class="project-inner">
+          <div class="project-info">
+            <span class="project-tag">🧠 Machine Learning</span>
+            <h3>Motor de Reconocimiento LSN</h3>
+            <p>El corazón del sistema: un modelo de red neuronal que reconoce las 26 letras del alfabeto manual nicaragüense en tiempo real usando la cámara.</p>
+            <ul class="project-features">
+              <li>MediaPipe HandLandmarker para detección precisa de manos</li>
+              <li>Normalización de coordenadas relativas a la muñeca (invariante a posición)</li>
+              <li>Entrenamiento con class weights para datos balanceados</li>
+              <li>Data augmentation: ruido, escala, rotación</li>
+              <li>Historial de entrenamiento: accuracy 98.31%, loss convergente</li>
+              <li>Captura automática y re-balanceo de muestras incluido</li>
+            </ul>
+            <div class="project-actions">
+              <a href="https://github.com/Imandro/inclu-writer" target="_blank" class="btn-sm btn-blue">Ver scripts de ML</a>
+              <a href="https://github.com/Jonax17/INCLU/tree/inclu-writer" target="_blank" class="btn-sm btn-outline">En INCLU repo</a>
+            </div>
+          </div>
+          <div class="project-preview" style="background:#F8F8FC;">
+            <div class="mock-chart">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAGQCAYAAAC+tZleAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjExLjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvctoD+AAAAAlwSFlzAAAPYQAAD2EBqD+naQAApNZJREFUeJzs3Qd4k2X3BvC7e0/o3uy9994IIiiigCLgRHCjorg3/8+9JwIqKk5AUWTvvfeGQoGWDrr3yP86z9uEjrQUaMno/bu+90uTvEnehtqkd845j41Op9OBiIiIiIiIiIjITNma+gCIiIiIiIiIiIgqwwCLiIiIiIiIiIjMGgMsIiIiIiIiIjIyawywiIiIiIiIiIjIrDHAIiIiIiIiIiIis8YAi4iIiIiIiIiIzBoDLCIiIiIiIiIiMmsMsIiIiIiIiIiIyKwxwCIiIiIiIiIiIrPGAIuIiIiIiIiIiMwaAywiIiIiIiIiIjJrDLCIiIiIiIiIiMisMcAiIiIiIiIiIiKzxgCLiIiIiIiIiIjMGgMsIiIiUlJS8Pvvv2PJkiV8foiIiMiowsJC9X5h+/btfIaIiGoYAywiIiNmzpyJ2267DUOHDkVMTAyfIyIiIionOztbvV/49NNP+ewQEdUwBlhEREZ8++236Nu3L5ycnDBr1iw+R0RERERERCZkb8oHJyIyR+vWrcPhw4fx8ccf4+eff1YB1ossvghbW9sK2w137dqF3NxctGrVCsHBwVe0z9KlS+Hh4YGuXbuWus3u3bsRHR2Nm2++udSx5efno1+/fkhOTsa2bdvg5uaG7t27q/2PHz+u9pNj9fb2Rtu2beHj43NFx71+/Xp13bBhw8rd5uTJk9i5cycGDBig7p+IiIiqRl5bpdUwJycHjRs3RsOGDcvtk5eXp17PExISEB4ejqZNm8Le3v6K9yEiskb8TUdEVMY333yj3lRKSCPhz+zZs9UsrCFDhpTaT4KkZ555Bp999pnaPzQ0FAcPHkT//v1V6GVjY1OlfR599FE0adIECxYsKNfGOGfOHGRkZBgue/XVV9Ub4GPTpuGll15CUFCQCpIkwNqxYwcWL16s9isoKMCJEydw9OhRdZtnn322ysctb66feOIJ9ea4devWpY5p6tSp2LBhA86dO8efGyIioip644038Oabb6rX3Tp16mDLli3o0aMHfvzxR/j5+al9Vq5ciXHjxqkPpuR9gbzWStj11VdfoWfPnlXeh4jIaumIiMggJSVF5+Lionv//fcNl3Xs2FE3cuTIcs/Sww8/rLO3t9ctXLjQcFlRUZFu9uzZusLCwirv07hxY92IESPK3f9DDz2kc3NzK3VZ//79dcHBwbp77rlHl5eXpy47evRohf+C33//vc7Gxka3YcOGKh93cnKyztXVVTdp0qRS9xUTE6Ozs7PTPfHEE/yJISIi0ul06enpOvmTasOGCRU+H998843a58MPPzRcdujQIZ2/v7+ud+/ehsuioqJ0o0aNKnXbEydO6JYuXXpF+xARWSvOwCIiKmHu3LnqdOLEiYbLJk+ejL///hsXLlwwXBYfH48vvvgC9957L4YPH264XCqq5LbSwleVfa6GHMfrr78OBwcHdb5kC4Kси Sheikh"
+
+              alt="Training history" />
+              <div class="mock-chart-caption">Accuracy: 98.31% · Loss: ~0.01 · 88 epochs · Sin overfitting</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DISPOSITIVOS -->
+      <div class="project-card">
+        <div class="project-inner reverse">
+          <div class="project-info">
+            <span class="project-tag">⌚ Hardware</span>
+            <h3>Dispositivos INCLU</h3>
+            <p>Ecosistema de wearables y dispositivos de asistencia conectados vía Bluetooth Low Energy (BLE) que extienden las capacidades de la app Android.</p>
+            <ul class="project-features">
+              <li><strong>INCLU Band:</strong> Pulsera háptica con vibraciones direccionales y de alerta</li>
+              <li><strong>INCLU Cane:</strong> Bastón inteligente con sensores de obstáculos y feedback háptico</li>
+              <li><strong>INCLU Glove:</strong> Guante con sensores de movimiento para traducción de señas</li>
+              <li>Conexión BLE directa sin servidores externos</li>
+              <li>Datos almacenados localmente en el dispositivo</li>
+            </ul>
+            <div class="project-actions">
+              <a href="https://github.com/Jonax17/INCLU" target="_blank" class="btn-sm btn-outline">Ver en GitHub</a>
+            </div>
+          </div>
+          <div class="project-preview">
+            <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+              <div class="device-card" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:24px;text-align:center;min-width:100px;">
+                <div style="font-size:3rem;">⌚</div>
+                <div style="font-weight:700;color:var(--dark-blue);margin-top:8px;font-size:0.9rem;">INCLU Band</div>
+                <div style="font-size:0.75rem;color:var(--medium-gray);margin-top:4px;">Pulsera háptica</div>
+              </div>
+              <div class="device-card" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:24px;text-align:center;min-width:100px;">
+                <div style="font-size:3rem;">🦯</div>
+                <div style="font-weight:700;color:var(--dark-blue);margin-top:8px;font-size:0.9rem;">INCLU Cane</div>
+                <div style="font-size:0.75rem;color:var(--medium-gray);margin-top:4px;">Bastón inteligente</div>
+              </div>
+              <div class="device-card" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:24px;text-align:center;min-width:100px;">
+                <div style="font-size:3rem;">🧤</div>
+                <div style="font-weight:700;color:var(--dark-blue);margin-top:8px;font-size:0.9rem;">INCLU Glove</div>
+                <div style="font-size:0.75rem;color:var(--medium-gray);margin-top:4px;">Guante de señas</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍAS -->
+<section class="section" id="tecnologias" style="background:var(--very-light-gray);">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Stack</span>
+      <h2>Tecnologías utilizadas</h2>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="icon">🤖</div><h4>TensorFlow / Keras</h4><p>Redes neuronales MLP para clasificación de señas</p></div>
+      <div class="tech-card"><div class="icon">✋</div><h4>MediaPipe</h4><p>Detección de manos y 21 landmarks en tiempo real</p></div>
+      <div class="tech-card"><div class="icon">👁️</div><h4>OpenCV</h4><p>Captura de video y renderizado de UI</p></div>
+      <div class="tech-card"><div class="icon">📱</div><h4>Kotlin / Compose</h4><p>App Android con Material 3 y MVVM</p></div>
+      <div class="tech-card"><div class="icon">🎯</div><h4>ML Kit</h4><p>Reconocimiento de texto por cámara</p></div>
+      <div class="tech-card"><div class="icon">📶</div><h4>Bluetooth LE</h4><p>Conexión con dispositivos wearables</p></div>
+      <div class="tech-card"><div class="icon">🔊</div><h4>TTS / Speech</h4><p>Texto a voz y voz a texto en tiempo real</p></div>
+      <div class="tech-card"><div class="icon">📳</div><h4>Vibración</h4><p>Lenguaje háptico con patrones de significado</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DESCARGAS -->
+<section class="section" id="descargas">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Descargas</span>
+      <h2>Obtén INCLU ahora</h2>
+      <p>Elige tu plataforma y descarga la herramienta que necesites.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      <div style="background:var(--card-bg);border-radius:var(--radius);padding:30px;text-align:center;border:2px solid var(--very-light-gray);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--very-light-gray)'">
+        <div style="font-size:3rem;margin-bottom:12px;">📱</div>
+        <h3 style="color:var(--dark-blue);margin-bottom:8px;">INCLU App Android</h3>
+        <p style="color:var(--medium-gray);font-size:0.9rem;margin-bottom:20px;">6 módulos de accesibilidad. Kotlin + Jetpack Compose + Material 3.</p>
+        <a href="https://github.com/Jonax17/INCLU/releases" target="_blank" class="btn-sm btn-blue" style="display:inline-flex;">Descargar APK</a>
+      </div>
+      <div style="background:var(--card-bg);border-radius:var(--radius);padding:30px;text-align:center;border:2px solid var(--teal);">
+        <div style="font-size:3rem;margin-bottom:12px;">🖥️</div>
+        <h3 style="color:var(--dark-blue);margin-bottom:8px;">INCLU Writer Windows</h3>
+        <p style="color:var(--medium-gray);font-size:0.9rem;margin-bottom:20px;">Reconocimiento de LSN. Ejecutable standalone. 98.3% precisión.</p>
+        <a href="https://github.com/Imandro/inclu-writer/releases/tag/v1.0" target="_blank" class="btn-sm btn-teal" style="display:inline-flex;">Descargar EXE</a>
+      </div>
+      <div style="background:var(--card-bg);border-radius:var(--radius);padding:30px;text-align:center;border:2px solid var(--very-light-gray);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--very-light-gray)'">
+        <div style="font-size:3rem;margin-bottom:12px;">🌐</div>
+        <h3 style="color:var(--dark-blue);margin-bottom:8px;">INCLU Web / PWA</h3>
+        <p style="color:var(--medium-gray);font-size:0.9rem;margin-bottom:20px;">Demo interactiva de los 6 módulos. React + Vite. Funciona offline.</p>
+        <a href="https://github.com/Jonax17/INCLU/tree/main/web" target="_blank" class="btn-sm btn-outline" style="display:inline-flex;">Ver código fuente</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <h2>¿Listo para experimentar INCLU?</h2>
+    <p>Explora el código fuente, descarga las apps y contribuye a making la tecnología más inclusiva.</p>
+    <div class="cta-actions">
+      <a href="https://github.com/Jonax17/INCLU" target="_blank" class="btn-primary">Ver en GitHub</a>
+      <a href="#proyectos" class="btn-ghost" style="color:var(--dark-blue);border-color:var(--medium-blue);">Ver proyectos</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">
+      <div class="navbar-logo" style="color:#fff;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" style="width:34px;height:34px;">
+          <rect width="108" height="108" rx="20" fill="#FFF"/>
+          <circle cx="54" cy="36" r="10" fill="#1A237E"/>
+          <path d="M47 58h14a3 3 0 013 3v23a3 3 0 01-3 3H47a3 3 0 01-3-3V61a3 3 0 013-3z" fill="#1A237E"/>
+          <path d="M41 74a3 3 0 014 4l-8 8a3 3 0 01-4-4z" fill="#03DAC6"/>
+          <path d="M67 74a3 3 0 00-4 4l8 8a3 3 0 004-4z" fill="#03DAC6"/>
+        </svg>
+        INCLU
+      </div>
+      <p>Tecnología que incluye. Plataforma de inclusión y accesibilidad para personas con discapacidad.</p>
+    </div>
+    <div>
+      <h4>Proyectos</h4>
+      <a href="#proyectos">INCLU App Android</a>
+      <a href="#proyectos">INCLU Writer</a>
+      <a href="#proyectos">Motor de IA (LSN)</a>
+      <a href="#proyectos">Dispositivos Wearables</a>
+    </div>
+    <div>
+      <h4>Recursos</h4>
+      <a href="https://github.com/Jonax17/INCLU" target="_blank">Repositorio principal</a>
+      <a href="https://github.com/Imandro/inclu-writer" target="_blank">INCLU Writer repo</a>
+      <a href="https://github.com/Jonax17/INCLU/releases" target="_blank">Releases</a>
+      <a href="#tecnologias">Stack tecnológico</a>
+    </div>
+    <div>
+      <h4>Comunidad</h4>
+      <a href="https://github.com/Jonax17/INCLU/issues" target="_blank">Reportar issues</a>
+      <a href="https://github.com/Jonax17/INCLU/pulls" target="_blank">Contribuir</a>
+      <a href="#">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">&copy; 2025 INCLU &middot; Tecnología que incluye.</div>
+  </div>
+</footer>
+
+</body>
+</html>
