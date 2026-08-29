@@ -123,6 +123,28 @@ voz y la base de datos local ya están operativos.
 
 ---
 
+## Web / PWA (`web/`)
+
+Además de la app Android, el proyecto incluye una **página web landing** y una
+**PWA** (Progressive Web App) con la simulación interactiva de los 6 módulos.
+Está construida con **React + Vite + VitePWA** y funciona offline.
+
+```bash
+cd web
+npm install        # solo la primera vez
+npm run dev        # entorno de desarrollo (http://localhost:5173)
+npm run build      # genera dist/ (incluye manifest y service worker)
+npm run preview    # servidor del build de producción
+```
+
+Puedes colaborar editando los componentes en `web/src/`:
+
+- `src/components/Landing.jsx` → página de presentación
+- `src/components/AppDemo.jsx` → demo interactiva de la app
+- `src/screens/` → cada uno de los 6 módulos (Ver, Escuchar, Sentir, Orientarme, Emergencia, Accesibilidad)
+
+---
+
 ## Licencia
 
 Este proyecto se distribuye bajo la licencia indicada en el archivo `LICENSE`.
