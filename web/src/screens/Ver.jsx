@@ -1,52 +1,28 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AppLayout from '../components/AppLayout.jsx';
 
-const sampleText = 'INCLU reconoce el texto de su entorno: "Bienvenidos al Laboratorio de Sistemas, segundo piso."';
+const tools = [
+  { path: '/app/ver/lector-texto', icon: '▣', title: 'Lector de texto', desc: 'Lee texto con cámara y voz' },
+  { path: '/app/ver/lupa', icon: '⊕', title: 'Lupa inteligente', desc: 'Amplía y mejora la visualización' },
+  { path: '/app/ver/escaneador', icon: '▤', title: 'Escáner de documentos', desc: 'Captura y lee documentos' },
+];
 
 export default function Ver() {
-  const [recognized, setRecognized] = useState('');
-  const [scanning, setScanning] = useState(false);
-
-  const scan = () => {
-    setScanning(true);
-    setRecognized('');
-    setTimeout(() => {
-      setRecognized(sampleText);
-      setScanning(false);
-    }, 1500);
-  };
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <h2>👁️ Ver</h2>
-      <p className="screen-desc">Reconocimiento de texto del entorno con la cámara.</p>
-
-      <div className="panel">
-        <h3>📷 Leer texto de la cámara</h3>
-        <p className="description">Apunta con la cámara a un texto escrito. INCLU lo reconoce y lo lee en voz alta.</p>
-        <div className="haptic-preview" style={{ minHeight: 120 }}>
-          {scanning ? 'Analizando imagen...' : 'Área de captura de cámara'}
-        </div>
-        <button className="btn-demo" onClick={scan} disabled={scanning}>
-          {scanning ? '⏳ Analizando...' : '📷 Escanear texto'}
-        </button>
+    <AppLayout>
+      <h2>Ver</h2>
+      <p>Herramientas para personas ciegas y con baja visión.</p>
+      <div className="grid">
+        {tools.map((t) => (
+          <div className="card" key={t.path} onClick={() => navigate(t.path)}>
+            <div style={{ fontSize: '1.3rem', color: '#4361ee', marginBottom: 8, fontWeight: 700 }}>{t.icon}</div>
+            <h3>{t.title}</h3>
+            <p>{t.desc}</p>
+          </div>
+        ))}
       </div>
-
-      <div className="panel">
-        <h3>🔍 Lupa digital</h3>
-        <p className="description">Amplía el texto para personas con baja visión.</p>
-        <div className="haptic-preview" style={{ minHeight: 80 }}>
-          👁️ Zoom activado
-        </div>
-        <button className="btn-demo outline">🔍 Activar lupa</button>
-      </div>
-
-      {recognized && (
-        <div className="panel">
-          <h3>📄 Texto reconocido</h3>
-          <div className="speech-text">{recognized}</div>
-          <button className="btn-demo success">🔊 Leer en voz alta</button>
-        </div>
-      )}
-    </div>
+    </AppLayout>
   );
 }
