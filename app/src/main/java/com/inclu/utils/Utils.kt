@@ -10,7 +10,7 @@ import android.provider.Settings
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.inclu.data.model.HapticPattern
-import com.inclu.data.model.HapticPatternType
+import com.inclu.data.model.HapticSegment
 
 object Constants {
     const val APP_NAME = "INCLU"
@@ -27,21 +27,24 @@ object Constants {
     )
 }
 
-fun vibrate(context: Context, pattern: List<Pair<Long, Long>>) {
+fun vibrate(context: Context, segments: List<HapticSegment>) {
     try {
+        if (segments.isEmpty()) return
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        val milliseconds = pattern.flatMap { (delay, duration) ->
-            listOf(delay, duration)
-        }.toLongArray()
+        val timings = segments.map { it.duration }.toLongArray()
+        val amplitudes = segments.map { it.amplitude.coerceIn(0, 255) }.toIntArray()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createWaveform(milliseconds, -1))
+            vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, -1))
         } else {
-            vibrator.vibrate(milliseconds, -1)
+            val legacy = segments.flatMap { listOf(it.duration, it.duration) }.toLongArray()
+            vibrator.vibrate(legacy, -1)
         }
     } catch (e: Exception) {
         e.printStackTrace()
     }
 }
+
+fun vibrate(context: Context, pattern: HapticPattern) = vibrate(context, pattern.segments)
 
 fun vibrateSimple(context: Context, duration: Long) {
     try {
@@ -53,17 +56,6 @@ fun vibrateSimple(context: Context, duration: Long) {
         }
     } catch (e: Exception) {
         e.printStackTrace()
-    }
-}
-
-fun hapticPatternForType(type: HapticPatternType): HapticPattern {
-    return when (type) {
-        HapticPatternType.LEFT -> HapticPattern.createLeft()
-        HapticPatternType.RIGHT -> HapticPattern.createRight()
-        HapticPatternType.DANGER -> HapticPattern.createDanger()
-        HapticPatternType.STOP -> HapticPattern.createStop()
-        HapticPatternType.DESTINATION -> HapticPattern.createDestination()
-        HapticPatternType.HELP -> HapticPattern.createHelp()
     }
 }
 

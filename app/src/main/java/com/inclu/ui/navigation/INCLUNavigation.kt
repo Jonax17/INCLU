@@ -21,6 +21,7 @@ import com.inclu.ui.screens.dispositivos.DispositivosScreen
 import com.inclu.ui.screens.accesibilidad.AccesibilidadScreen
 import com.inclu.ui.screens.codigo_qr.CodigoQrScreen
 import com.inclu.ui.screens.demo.DemoScreen
+import com.inclu.ui.screens.vibraciones.VibracionesPersonalizadasScreen
 import com.inclu.ui.viewmodels.DashboardViewModel
 import com.inclu.ui.viewmodels.SettingsViewModel
 import com.inclu.ui.viewmodels.HapticViewModel
@@ -42,6 +43,7 @@ sealed class ScreenRoute(val route: String) {
     object Mapa : ScreenRoute("mapa")
     object Dispositivos : ScreenRoute("dispositivos")
     object CodigoQr : ScreenRoute("codigo_qr")
+    object Vibraciones : ScreenRoute("vibraciones_personalizadas")
     object Demo : ScreenRoute("demo")
 }
 
@@ -106,6 +108,9 @@ fun INCLUNavigation(
         }
         composable(ScreenRoute.CodigoQr.route) {
             CodigoQrScreen(navController = navController)
+        }
+        composable(ScreenRoute.Vibraciones.route) {
+            VibracionesPersonalizadasScreen(navController = navController)
         }
         composable(ScreenRoute.Demo.route) {
             DemoScreen(navController = navController)

@@ -4,10 +4,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import com.inclu.data.model.HapticPatternType
+import com.inclu.data.model.HAPTIC_ALERTS
+import com.inclu.data.model.HAPTIC_COMMUNICATION
+import com.inclu.data.model.HAPTIC_DIRECTIONS
+import com.inclu.data.model.HAPTIC_NAVIGATION
+import com.inclu.data.model.hapticPatternForType
 import com.inclu.ui.components.*
+import com.inclu.ui.navigation.ScreenRoute
 import com.inclu.ui.viewmodels.HapticViewModel
+
+private fun groups(types: List<com.inclu.data.model.HapticPatternType>) = types.map { hapticPatternForType(it) }
 
 @Composable
 fun SentirScreen(navController: NavController, hapticViewModel: HapticViewModel) {
@@ -18,41 +26,15 @@ fun SentirScreen(navController: NavController, hapticViewModel: HapticViewModel)
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+            HapticGroup("Direcciones", groups(HAPTIC_DIRECTIONS), onPlay = { hapticViewModel.playHaptic(it) })
+            HapticGroup("Alertas", groups(HAPTIC_ALERTS), onPlay = { hapticViewModel.playHaptic(it) })
+            HapticGroup("Navegación", groups(HAPTIC_NAVIGATION), onPlay = { hapticViewModel.playHaptic(it) })
+            HapticGroup("Comunicación", groups(HAPTIC_COMMUNICATION), onPlay = { hapticViewModel.playHaptic(it) })
             HapticTile(
-                label = "Izquierda",
-                description = "Una vibración corta",
-                color = MaterialTheme.colorScheme.primary,
-                onClick = { hapticViewModel.playPattern(HapticPatternType.LEFT) }
-            )
-            HapticTile(
-                label = "Derecha",
-                description = "Dos vibraciones cortas",
-                color = MaterialTheme.colorScheme.secondary,
-                onClick = { hapticViewModel.playPattern(HapticPatternType.RIGHT) }
-            )
-            HapticTile(
-                label = "Peligro",
-                description = "Tres vibraciones",
-                color = MaterialTheme.colorScheme.error,
-                onClick = { hapticViewModel.playPattern(HapticPatternType.DANGER) }
-            )
-            HapticTile(
-                label = "Detener",
-                description = "Vibración larga",
+                label = "Vibraciones personalizadas",
+                description = "Crea y guarda tus propios patrones",
                 color = MaterialTheme.colorScheme.tertiary,
-                onClick = { hapticViewModel.playPattern(HapticPatternType.STOP) }
-            )
-            HapticTile(
-                label = "Destino",
-                description = "Dos vibraciones largas",
-                color = MaterialTheme.colorScheme.primary,
-                onClick = { hapticViewModel.playPattern(HapticPatternType.DESTINATION) }
-            )
-            HapticTile(
-                label = "Ayuda",
-                description = "Patrón de ayuda",
-                color = MaterialTheme.colorScheme.error,
-                onClick = { hapticViewModel.playPattern(HapticPatternType.HELP) }
+                onClick = { navController.navigate(ScreenRoute.Vibraciones.route) }
             )
         }
     }

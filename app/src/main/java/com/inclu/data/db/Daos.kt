@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.inclu.data.model.AccessiblePlace
 import com.inclu.data.model.BleDevice
+import com.inclu.data.model.CustomHaptic
 import com.inclu.data.model.UserProfile
 
 @Dao
@@ -54,4 +55,16 @@ interface ProfileDao {
 
     @Update
     fun updateProfile(profile: UserProfile)
+}
+
+@Dao
+interface CustomHapticDao {
+    @Query("SELECT * FROM CustomHaptic ORDER BY id DESC")
+    fun getAll(): Flow<List<CustomHaptic>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(item: CustomHaptic)
+
+    @Delete
+    suspend fun delete(item: CustomHaptic)
 }

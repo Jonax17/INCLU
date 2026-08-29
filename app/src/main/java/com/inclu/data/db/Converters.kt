@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.inclu.data.model.BleDeviceType
+import com.inclu.data.model.HapticSegment
 import com.inclu.data.model.PlaceType
 
 class Converters {
@@ -31,12 +32,11 @@ class Converters {
     fun toBleDeviceType(value: String): BleDeviceType = BleDeviceType.valueOf(value)
 
     @TypeConverter
-    fun fromHapticPatternList(list: List<Pair<Long, Long>>): String = gson.toJson(list)
+    fun fromHapticSegments(list: List<HapticSegment>): String = gson.toJson(list)
 
     @TypeConverter
-    fun toHapticPatternList(json: String): List<Pair<Long, Long>> {
-        val type = object : TypeToken<List<List<Long>>>() {}.type
-        val lists = gson.fromJson<List<List<Long>>>(json, type)
-        return lists?.map { it[0] to it[1] } ?: emptyList()
+    fun toHapticSegments(json: String): List<HapticSegment> {
+        val type = object : TypeToken<List<HapticSegment>>() {}.type
+        return gson.fromJson(json, type) ?: emptyList()
     }
 }

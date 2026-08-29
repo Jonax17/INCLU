@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inclu.data.model.AccessiblePlace
+import com.inclu.data.model.HapticPattern
 
 val LocalLargeButtons = compositionLocalOf { false }
 
@@ -238,6 +239,19 @@ fun HapticTile(label: String, description: String, color: Color, onClick: () -> 
                 )
             }
         }
+    }
+}
+
+@Composable
+fun HapticGroup(title: String, patterns: List<HapticPattern>, onPlay: (HapticPattern) -> Unit) {
+    SectionTitle(title)
+    patterns.forEach { p ->
+        HapticTile(
+            label = p.name,
+            description = p.description,
+            color = MaterialTheme.colorScheme.primary,
+            onClick = { onPlay(p) }
+        )
     }
 }
 

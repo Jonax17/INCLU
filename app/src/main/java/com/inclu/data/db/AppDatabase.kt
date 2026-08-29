@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import com.inclu.data.db.Converters
 import com.inclu.data.model.AccessiblePlace
 import com.inclu.data.model.BleDevice
+import com.inclu.data.model.CustomHaptic
 import com.inclu.data.model.UserProfile
 
 object DatabaseProvider {
@@ -20,7 +21,7 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "includb"
-            ).build()
+            ).fallbackToDestructiveMigration().build()
             INSTANCE = instance
             instance
         }
@@ -28,8 +29,8 @@ object DatabaseProvider {
 }
 
 @Database(
-    entities = [AccessiblePlace::class, BleDevice::class, UserProfile::class],
-    version = 1,
+    entities = [AccessiblePlace::class, BleDevice::class, UserProfile::class, CustomHaptic::class],
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -37,4 +38,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun placeDao(): PlaceDao
     abstract fun deviceDao(): DeviceDao
     abstract fun profileDao(): ProfileDao
+    abstract fun customHapticDao(): CustomHapticDao
 }
