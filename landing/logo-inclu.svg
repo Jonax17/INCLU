@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 60" width="320" height="60">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Blue parenthesis left -->
+  <path d="M18 8 C6 8, 2 20, 2 30 C2 40, 6 52, 18 52" stroke="url(#blueGrad)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- Green dot top -->
+  <circle cx="28" cy="14" r="5" fill="url(#greenGrad)"/>
+  <!-- Blue vertical bar -->
+  <rect x="24" y="22" width="8" height="18" rx="4" fill="url(#blueGrad)"/>
+  <!-- Blue parenthesis right -->
+  <path d="M38 8 C50 8, 54 20, 54 30 C54 40, 50 52, 38 52" stroke="url(#blueGrad)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- I -->
+  <rect x="72" y="10" width="8" height="40" rx="2" fill="#0f172a"/>
+  <!-- N -->
+  <path d="M96 50 L96 10 L116 50 L116 10" stroke="#0f172a" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- C -->
+  <path d="M148 18 C138 10, 126 10, 120 18 L120 42 C126 50, 138 50, 148 42" stroke="#0f172a" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- L -->
+  <path d="M158 10 L158 50 L182 50" stroke="#0f172a" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- U -->
+  <path d="M194 10 L194 42 C194 48, 200 50, 206 50 C212 50, 218 48, 218 42 L218 10" stroke="#0f172a" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- Green dot end -->
+  <circle cx="238" cy="42" r="6" fill="url(#greenGrad)"/>
+</svg>
