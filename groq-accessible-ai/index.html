@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="INCLU - Asistente de IA para personas con discapacidades auditivas y visuales">
+  <title>INCLU - Asistente IA para Inclusión</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <header role="banner">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="header-logo" aria-hidden="true">i</div>
+        <div class="header-text">
+          <h1>INCLU</h1>
+          <p class="tagline">Inclusión Digital con Inteligencia Artificial</p>
+        </div>
+      </div>
+      <nav aria-label="Controles principales">
+        <div class="header-tools">
+          <select id="lang-select" aria-label="Seleccionar idioma">
+            <option value="es">🇪🇸 ES</option>
+            <option value="en">🇺🇸 EN</option>
+            <option value="pt">🇧🇷 PT</option>
+          </select>
+          <button id="tutorial-btn"
+                  aria-label="Iniciar tutorial"
+                  title="Tutorial">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </button>
+          <button id="settings-btn"
+                  aria-label="Configuración de accesibilidad"
+                  aria-expanded="false"
+                  aria-controls="settings-panel">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" role="main">
+    <section class="chat-container" aria-label="Chat con asistente IA">
+      <div class="chat-header">
+        <h2>Conversación</h2>
+        <div class="chat-tools">
+          <button id="history-btn"
+                  aria-label="Historial de chat"
+                  title="Historial">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v5h5"></path>
+              <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path>
+              <path d="M12 7v5l4 2"></path>
+            </svg>
+          </button>
+          <button id="image-btn"
+                  aria-label="Describir imagen"
+                  title="Describir imagen">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </button>
+          <button id="export-btn"
+                  aria-label="Exportar chat"
+                  title="Exportar chat">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="status-indicator" role="status" aria-live="polite">
+          <span id="connection-status" class="status-dot"></span>
+          <span id="status-text">Conectado</span>
+        </div>
+      </div>
+
+      <div id="chat-messages"
+           class="chat-messages"
+           role="log"
+           aria-live="polite"
+           aria-relevant="additions"
+           aria-label="Mensajes del chat">
+        <div class="welcome-message" role="article">
+          <h3>Bienvenido a INCLU</h3>
+          <p>Tu asistente de IA para inclusión digital. Puede escribir un mensaje o usar el micrófono para hablar.</p>
+          <p><strong>Atajos de teclado:</strong></p>
+          <ul>
+            <li><kbd>Enter</kbd> - Enviar mensaje</li>
+            <li><kbd>Shift</kbd> + <kbd>Enter</kbd> - Nueva línea</li>
+            <li><kbd>Escape</kbd> - Cerrar paneles</li>
+            <li><kbd>Alt</kbd> + <kbd>M</kbd> - Activar micrófono</li>
+            <li><kbd>Alt</kbd> + <kbd>S</kbd> - Leer última respuesta</li>
+          </ul>
+        </div>
+      </div>
+
+      <form id="chat-form" class="chat-input-form" aria-label="Formulario de mensaje">
+        <div class="input-container">
+          <label for="message-input" class="visually-hidden">Escriba su mensaje</label>
+          <textarea id="message-input"
+                    name="message"
+                    rows="1"
+                    placeholder="Escriba su mensaje o presione el micrófono para hablar..."
+                    aria-describedby="input-help"
+                    aria-required="true"></textarea>
+          <span id="input-help" class="visually-hidden">
+            Presione Enter para enviar, Shift+Enter para nueva línea
+          </span>
+        </div>
+
+        <div class="button-group">
+          <button type="button"
+                  id="mic-btn"
+                  aria-label="Activar micrófono para dictado"
+                  aria-pressed="false">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </button>
+
+          <button type="button"
+                  id="speak-btn"
+                  aria-label="Leer última respuesta en voz alta"
+                  disabled>
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+
+          <button type="button"
+                  id="stop-btn"
+                  aria-label="Detener reproducción de voz"
+                  disabled
+                  class="hidden">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="6" width="12" height="12"></rect>
+            </svg>
+          </button>
+
+          <button type="submit"
+                  id="send-btn"
+                  aria-label="Enviar mensaje"
+                  disabled>
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <div id="transcription-area"
+           class="transcription-area hidden"
+           role="region"
+           aria-live="polite"
+           aria-label="Transcripción en tiempo real">
+        <h3>Transcripción:</h3>
+        <p id="transcription-text"></p>
+      </div>
+    </section>
+
+    <aside id="settings-panel"
+           class="settings-panel hidden"
+           role="dialog"
+           aria-modal="true"
+           aria-label="Configuración de accesibilidad">
+      <div class="settings-header">
+        <h2>Configuración de Accesibilidad</h2>
+        <button id="close-settings"
+                aria-label="Cerrar configuración"
+                class="close-btn">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-content">
+        <fieldset>
+          <legend>Modo de visualización</legend>
+          <div class="radio-group">
+            <input type="radio" id="theme-normal" name="theme" value="normal" checked>
+            <label for="theme-normal">Normal</label>
+          </div>
+          <div class="radio-group">
+            <input type="radio" id="theme-dark" name="theme" value="dark">
+            <label for="theme-dark">Modo oscuro</label>
+          </div>
+          <div class="radio-group">
+            <input type="radio" id="theme-high-contrast" name="theme" value="high-contrast">
+            <label for="theme-high-contrast">Alto contraste</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Voz y audio</legend>
+          <div class="checkbox-group">
+            <input type="checkbox" id="auto-speak" checked>
+            <label for="auto-speak">Leer respuestas automáticamente</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="visual-alerts" checked>
+            <label for="visual-alerts">Alertas visuales para sonidos</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="captions-enabled" checked>
+            <label for="captions-enabled">Mostrar transcripción en tiempo real</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Velocidad de lectura</legend>
+          <label for="speech-rate">Velocidad: <span id="rate-value">1.0</span>x</label>
+          <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="1">
+        </fieldset>
+
+        <fieldset>
+          <legend>Tamaño de texto</legend>
+          <label for="font-size">Tamaño: <span id="font-size-value">100</span>%</label>
+          <input type="range" id="font-size" min="80" max="200" step="10" value="100">
+        </fieldset>
+
+        <fieldset>
+          <legend>Modelo de IA</legend>
+          <label for="model-select" class="visually-hidden">Seleccionar modelo</label>
+          <select id="model-select">
+            <option value="openai/gpt-oss-20b">GPT-OSS 20B (Rápido, Economático)</option>
+            <option value="openai/gpt-oss-120b">GPT-OSS 120B (Potente)</option>
+            <option value="llama-3.3-70b-versatile">Llama 3.3 70B (Versátil)</option>
+          </select>
+        </fieldset>
+
+        <div class="button-group">
+          <button id="save-settings" class="btn-primary">Guardar configuración</button>
+          <button id="reset-settings" class="btn-secondary">Restablecer valores</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <input type="file"
+         id="image-input"
+         accept="image/*"
+         class="hidden"
+         aria-hidden="true">
+
+  <div id="history-modal"
+       class="modal hidden"
+       role="dialog"
+       aria-modal="true"
+       aria-label="Historial de chat">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Historial de Chat</h2>
+        <button id="close-history" class="close-btn" aria-label="Cerrar historial">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="history-list" class="history-list">
+          <p class="empty-state">No hay conversaciones guardadas</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="new-chat-btn" class="btn-primary">Nueva conversación</button>
+        <button id="clear-history-btn" class="btn-secondary">Limpiar historial</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="export-modal"
+       class="modal hidden"
+       role="dialog"
+       aria-modal="true"
+       aria-label="Exportar chat">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h2>Exportar Chat</h2>
+        <button id="close-export" class="close-btn" aria-label="Cerrar exportación">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Selecciona el formato de exportación:</p>
+        <div class="export-options">
+          <button id="export-txt-btn" class="export-option">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span>Texto (TXT)</span>
+          </button>
+          <button id="export-pdf-btn" class="export-option">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <path d="M9 15h6"></path>
+            </svg>
+            <span>PDF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notification-area"
+       class="notification-area"
+       role="region"
+       aria-label="Notificaciones"
+       aria-live="assertive">
+  </div>
+
+  <div id="aria-announcer"
+       class="visually-hidden"
+       role="status"
+       aria-live="polite"
+       aria-atomic="true">
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/offline.js"></script>
+  <script src="js/tutorial.js"></script>
+  <script src="js/groq-api.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

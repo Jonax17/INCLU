@@ -1,0 +1,115 @@
+/* ============================================
+   INCLU - Accesibilidad
+   ============================================ */
+
+[data-theme="dark"] {
+  --bg: #111827;
+  --surface: #1f2937;
+  --surface-hover: #374151;
+  --text: #f9fafb;
+  --text-2: #d1d5db;
+  --text-3: #9ca3af;
+  --border: #374151;
+  --border-2: #4b5563;
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --primary-soft: rgba(99,102,241,0.15);
+}
+
+[data-theme="dark"] body { background: #111827; }
+[data-theme="dark"] header { background: #1f2937; border-color: #374151; }
+[data-theme="dark"] .chat-messages { background: #111827; }
+[data-theme="dark"] .message-ai { background: #1f2937; border-color: #374151; }
+[data-theme="dark"] textarea { background: #111827; border-color: #374151; }
+[data-theme="dark"] textarea:focus { background: #1f2937; }
+[data-theme="dark"] kbd { background: #374151; border-color: #4b5563; }
+[data-theme="dark"] .history-item { background: #1f2937; }
+[data-theme="dark"] .export-option { background: #1f2937; }
+[data-theme="dark"] fieldset { background: #1f2937; }
+
+[data-theme="high-contrast"] {
+  --bg: #000000;
+  --surface: #0a0a0a;
+  --surface-hover: #1a1a1a;
+  --text: #ffffff;
+  --text-2: #ffffff;
+  --text-3: #eeeeee;
+  --border: #ffffff;
+  --border-2: #ffffff;
+  --primary: #00ffff;
+  --primary-hover: #00ffff;
+  --primary-soft: #003333;
+  --green: #00ff00;
+  --red: #ff0000;
+  --yellow: #ffff00;
+}
+
+[data-theme="high-contrast"] body { background: #000000; }
+[data-theme="high-contrast"] header { border-bottom: 2px solid #ffffff; }
+[data-theme="high-contrast"] .header-logo { background: #ffffff; color: #000000; }
+[data-theme="high-contrast"] .header-text h1 { color: #ffffff; }
+[data-theme="high-contrast"] .tagline { color: #ffffff; }
+[data-theme="high-contrast"] .header-tools button { border-color: #ffffff; color: #ffffff; }
+[data-theme="high-contrast"] .header-tools button:hover { background: #ffff00; color: #000000; }
+[data-theme="high-contrast"] #lang-select { border-color: #ffffff; color: #ffffff; background: #000000; }
+[data-theme="high-contrast"] .skip-link { background: #ffff00; color: #000000; }
+[data-theme="high-contrast"] button { border-color: #ffffff; }
+[data-theme="high-contrast"] button:hover { background: #ffff00; color: #000000; }
+[data-theme="high-contrast"] textarea, [data-theme="high-contrast"] select { border-color: #ffffff; background: #000000; color: #ffffff; }
+[data-theme="high-contrast"] .message-user { background: #0000ff; border: 2px solid #ffffff; }
+[data-theme="high-contrast"] .message-ai { border: 2px solid #ffffff; }
+[data-theme="high-contrast"] kbd { background: #ffffff; color: #000000; border-color: #000000; }
+[data-theme="high-contrast"] #send-btn { background: #00ff00; color: #000000; border-color: #ffffff; }
+[data-theme="high-contrast"] .modal-content { border: 2px solid #ffffff; }
+[data-theme="high-contrast"] .history-item { border-color: #ffffff; }
+[data-theme="high-contrast"] .history-item:hover { background: #ffff00; color: #000000; }
+[data-theme="high-contrast"] .export-option { border-color: #ffffff; }
+[data-theme="high-contrast"] .export-option:hover { background: #ffff00; color: #000000; }
+[data-theme="high-contrast"] fieldset { border-color: #ffffff; }
+[data-theme="high-contrast"] legend { color: #00ffff; }
+[data-theme="high-contrast"] .notification { border: 2px solid #ffffff; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #111827;
+    --surface: #1f2937;
+    --surface-hover: #374151;
+    --text: #f9fafb;
+    --text-2: #d1d5db;
+    --text-3: #9ca3af;
+    --border: #374151;
+    --border-2: #4b5563;
+    --primary: #818cf8;
+    --primary-hover: #6366f1;
+    --primary-soft: rgba(99,102,241,0.15);
+  }
+  :root:not([data-theme]) body { background: #111827; }
+  :root:not([data-theme]) header { background: #1f2937; border-color: #374151; }
+}
+
+@media (prefers-contrast: high) {
+  :root:not([data-theme]) {
+    --bg: #000000;
+    --surface: #0a0a0a;
+    --text: #ffffff;
+    --border: #ffffff;
+    --primary: #00ffff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@media (forced-colors: active) {
+  .status-dot, .header-logo, .message-user, .typing-dot { forced-color-adjust: none; }
+}
+
+#mic-btn[aria-pressed="true"]::after {
+  content: 'Grabando';
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}
