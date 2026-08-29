@@ -1,23 +1,36 @@
 # INCLU — Tecnología que incluye
 
-> Aplicación Android de inclusión y accesibilidad para personas con discapacidad visual, auditiva, sordociega y motora.
+> **Ecosistema completo de inclusión y accesibilidad.** Aplicación Android nativa + PWA web + Asistente IA accesible para personas con discapacidad visual, auditiva, sordociega y motora.
 
 ---
 
-## ¿Qué es INCLU?
+## 🌍 Ecosistema INCLU
 
-**INCLU** es una aplicación Android pensada para que personas con distintos tipos de
-discapacidad puedan interactuar con su entorno mediante herramientas accesibles
-reunidas en un único panel. Combina cámara, voz, vibración (un **lenguaje háptico**),
-Bluetooth Low Energy, NFC y navegación para ofrecer una experiencia verdaderamente
-inclusiva.
+INCLU es más que una aplicación: es un **ecosistema integrado** para la inclusión digital.
 
-Todo funciona **en el dispositivo, sin servidores externos**: los datos quedan
-almacenados localmente (Room + preferencias).
+| Proyecto | Descripción | Tecnología | Estado |
+|----------|-------------|-----------|--------|
+| **[INCLU (Principal)](https://github.com/Jonax17/INCLU)** | App Android + PWA web con 6 módulos accesibles | Kotlin, Android, React, Vite | ✅ Funcional |
+| **[INCLU Landing](https://github.com/Jonax17/inclu-landing)** | Página web de presentación y marketing | React, Next.js | 🔄 En desarrollo |
 
 ---
 
-## Características principales
+## 📱 ¿Qué es INCLU?
+
+**INCLU** es una aplicación Android pensada para que personas con distintos tipos de discapacidad puedan interactuar con su entorno mediante herramientas accesibles reunidas en un único panel. Combina:
+
+- 📷 **Cámara** — Lectura de texto e imagen
+- 🎙️ **Voz** — Reconocimiento y síntesis de audio
+- 📳 **Vibración** — Lenguaje háptico para comunicación
+- 🔵 **Bluetooth Low Energy** — Conexión con wearables
+- 🏷️ **NFC** — Navegación interior con etiquetas
+- 🗺️ **GPS** — Mapas de lugares accesibles
+
+Todo funciona **en el dispositivo, sin servidores externos**: los datos quedan almacenados localmente (Room + preferencias).
+
+---
+
+## ✨ Características principales
 
 | Módulo | Dirigido a | Qué hace |
 |--------|-----------|----------|
@@ -32,119 +45,235 @@ almacenados localmente (Room + preferencias).
 
 ---
 
-## Arquitectura
-
-- **Patrón:** MVVM (Model-View-ViewModel).
-- **UI:** Jetpack Compose + Material 3, con Navigation Compose.
-- **Datos:** Room (`UserProfile`, `AccessiblePlace`, `BleDevice`) accedidos mediante
-  repositorios y un `DatabaseProvider` singleton. Preferencias con
-  `SharedPreferences`/`DataStore`.
-- **Local-first:** sin backend; toda la lógica y el almacenamiento son locales.
+## 🏗️ Estructura del Proyecto
 
 ```
-app/src/main/java/com/inclu/
-├── data/      model · db (Room) · repository
-├── ui/        screens · theme · navigation · viewmodels
-├── speech/    TTSManager · SpeechRecognizerManager
-├── bluetooth/ BleManager · BleScanService
-├── haptic/    HapticManager
-├── location/  LocationManager (Play Services)
-├── nfc/       NfcManager
-└── utils/     Helpers (vibración, dialer, maps…)
+INCLU/
+├── app/                          # Aplicación Android (Kotlin + Jetpack Compose)
+│   ├── src/main/java/com/inclu/
+│   │   ├── data/                 # Room DB, Repositorios
+│   │   ├── ui/                   # Pantallas, Temas, Navegación
+│   │   ├── speech/               # TTSManager, SpeechRecognizer
+│   │   ├── bluetooth/            # BleManager, BLE Scanning
+│   │   ├── haptic/               # HapticManager (vibraciones)
+│   │   ├── location/             # LocationManager (Play Services)
+│   │   ├── nfc/                  # NfcManager
+│   │   └── utils/                # Helpers
+│   └── build.gradle.kts
+│
+├── web/                          # PWA Web + Landing (React + Vite)
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Landing.jsx       # Página de inicio
+│   │   │   └── AppDemo.jsx       # Demo interactiva
+│   │   ├── screens/              # 6 módulos (Ver, Escuchar, Sentir, etc.)
+│   │   └── App.jsx
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+│
+├── groq-accessible-ai/           # Asistente IA accesible (alternativa web)
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
+│
+└── README.md                      # Este archivo
 ```
 
 ---
 
-## Tecnologías
+## 🏛️ Arquitectura
+
+### Patrón: MVVM (Model-View-ViewModel)
+
+```
+┌─────────────────────────────────────┐
+│  UI Layer (Jetpack Compose + M3)    │
+├─────────────────────────────────────┤
+│  ViewModel (State Management)       │
+├─────────────────────────────────────┤
+│  Repository Pattern (Data Access)   │
+├─────────────────────────────────────┤
+│  Local Storage (Room + Preferences) │
+└─────────────────────────────────────┘
+```
+
+### Stack Tecnológico
 
 | Área | Tecnología |
 |------|-----------|
-| Lenguaje | Kotlin 1.9.22 |
-| UI | Jetpack Compose (BOM 2024.02.00) · Material 3 · Navigation Compose |
-| Persistencia | Room 2.6.1 · Gson |
-| Cámara / ML | CameraX 1.3.1 · ML Kit (reconocimiento de texto) |
-| Voz | `TextToSpeech` · `SpeechRecognizer` |
-| Háptica | `Vibrator` / `VibrationEffect` |
-| Conectividad | Bluetooth LE · NFC |
-| Ubicación | Play Services Location |
-| Build | Android Gradle Plugin 8.5.2 · Gradle 8.9 |
+| **Lenguaje** | Kotlin 1.9.22 |
+| **UI (Mobile)** | Jetpack Compose (BOM 2024.02.00), Material 3, Navigation Compose |
+| **UI (Web)** | React 19, Vite 5, VitePWA |
+| **Persistencia** | Room 2.6.1, SharedPreferences, localStorage |
+| **Cámara / ML** | CameraX 1.3.1, ML Kit (OCR) |
+| **Voz** | TextToSpeech, SpeechRecognizer, Whisper API |
+| **Háptica** | Vibrator, VibrationEffect |
+| **Conectividad** | Bluetooth LE, NFC, Web APIs |
+| **Ubicación** | Play Services Location, GPS |
+| **Build** | Android Gradle Plugin 8.5.2, Gradle 8.9 |
+| **IA** | Groq API (Chat, Whisper STT, Orpheus TTS) |
 
 ---
 
-## Requisitos para compilar
+## 🚀 Guía de Desarrollo
 
-- **compileSdk / targetSdk:** 35 · **minSdk:** 26
+### Requisitos
+
+- **Android Studio:** Hedgehog o superior
+- **Gradle:** 8.9+
 - **Java:** 17
-- **Android SDK** con plataforma 35 y build-tools instalados
-- Android Studio Hedgehog (o superior) o Gradle 8.9
+- **compileSdk / targetSdk:** 35 | **minSdk:** 26
+- **Node.js:** 18+ (para la parte web)
 
-### Cómo compilar
+### Compilar la App Android
 
 ```bash
+# Clonar repositorio
 git clone https://github.com/Jonax17/INCLU.git
 cd INCLU
+
+# Build de depuración
 ./gradlew assembleDebug
-# El APK queda en app/build/outputs/apk/debug/app-debug.apk
+# APK en: app/build/outputs/apk/debug/app-debug.apk
+
+# Build de release (requiere keystore)
+./gradlew assembleRelease
 ```
 
-O bien ábrelo en Android Studio y pulsa **Run**.
+O simplemente abre el proyecto en **Android Studio** y pulsa **Run**.
 
----
-
-## Cómo instalar la APK
-
-Descarga **`app-debug.apk`** desde la sección **Releases** de este repositorio y:
+### Instalar el APK
 
 ```bash
+# Desde Releases
 adb install app-debug.apk
+
+# O transfiere manualmente al teléfono
+# y abre (requiere "Instalar desde orígenes desconocidos")
 ```
 
-O transfiere el archivo al teléfono y ábrelo (activa *"Instalar desde orígenes
-desconocidos"*).
-
-> ⚠️ El APK publicado es una **build de depuración** (no firmada para producción).
-> Para una versión de lanzamiento, genera un keystore y usa `assembleRelease`.
-
----
-
-## Permisos utilizados
-
-Cámara · Micrófono/Audio · Ubicación (GPS y BLE) · Bluetooth · NFC · Vibración ·
-Notificaciones · Internet.
-
----
-
-## Estado del proyecto
-
-La aplicación **compila y es funcional**. Algunas integraciones (CameraX/ML Kit,
-BLE y NFC) están preparadas como andamiaje y se conectarán a hardware real en
-dispositivos compatibles. El lenguaje háptico, la voz (TTS), el reconocimiento de
-voz y la base de datos local ya están operativos.
-
----
-
-## Web / PWA (`web/`)
-
-Además de la app Android, el proyecto incluye una **página web landing** y una
-**PWA** (Progressive Web App) con la simulación interactiva de los 6 módulos.
-Está construida con **React + Vite + VitePWA** y funciona offline.
+### Desarrollar la PWA Web
 
 ```bash
 cd web
-npm install        # solo la primera vez
-npm run dev        # entorno de desarrollo (http://localhost:5173)
-npm run build      # genera dist/ (incluye manifest y service worker)
-npm run preview    # servidor del build de producción
+
+# Instalar dependencias
+npm install
+
+# Servidor de desarrollo (http://localhost:5173)
+npm run dev
+
+# Build de producción (genera dist/)
+npm run build
+
+# Preview del build
+npm run preview
 ```
 
-Puedes colaborar editando los componentes en `web/src/`:
-
-- `src/components/Landing.jsx` → página de presentación
-- `src/components/AppDemo.jsx` → demo interactiva de la app
-- `src/screens/` → cada uno de los 6 módulos (Ver, Escuchar, Sentir, Orientarme, Emergencia, Accesibilidad)
+**Archivos principales para editar:**
+- `src/components/Landing.jsx` — Página de presentación
+- `src/components/AppDemo.jsx` — Simulación interactiva
+- `src/screens/` — Cada uno de los 6 módulos
 
 ---
 
-## Licencia
+## 🔐 Permisos Utilizados
 
-Este proyecto se distribuye bajo la licencia indicada en el archivo `LICENSE`.
+| Permiso | Motivo |
+|---------|--------|
+| Cámara | Lector de texto, Lupa, Escáner de documentos |
+| Micrófono / Audio | Reconocimiento y síntesis de voz |
+| Ubicación (GPS + BLE) | Navegación exterior e interior |
+| Bluetooth | Conexión con wearables (banda, bastón, guante) |
+| NFC | Lectura de etiquetas para navegación |
+| Vibración | Lenguaje háptico |
+| Notificaciones | Alertas y recordatorios |
+| Internet | APIs en línea (cuando esté disponible) |
+
+---
+
+## 📊 Estado del Proyecto
+
+| Componente | Estado | Detalles |
+|-----------|--------|---------|
+| **Compilación** | ✅ Funcional | Compila sin errores en Android Studio |
+| **App Android** | ✅ Operativa | Interfaz, almacenamiento local, voz |
+| **PWA Web** | ✅ Operativa | Demo interactiva, offline-ready |
+| **Cámara + ML Kit** | 🔄 Andamiaje | Listo, se conectará a hardware real |
+| **BLE + NFC** | 🔄 Andamiaje | Preparado para dispositivos compatibles |
+| **TTS + STT** | ✅ Operativo | Ya funciona con dispositivos |
+| **BD Local** | ✅ Operativa | Room + SharedPreferences listos |
+| **Asistente IA** | ✅ Operativo | Groq API integrada |
+
+---
+
+## 🌐 PWA y Web (`web/`)
+
+INCLU no solo es una app Android; también incluye una **Progressive Web App** que funciona en navegadores y **offline**.
+
+### Características Web
+
+- ✅ Responsive (móvil, tablet, desktop)
+- ✅ Funciona sin conexión (service worker)
+- ✅ Installable como app en el home screen
+- ✅ Demo interactiva de los 6 módulos
+- ✅ 100% accesible (navegación por teclado)
+
+### AI Assistant (`groq-accessible-ai/`)
+
+Dentro del proyecto encontrarás también un **asistente de IA dedicado** con:
+
+- 🤖 Chat con OpenAI (Groq)
+- 🎤 Reconocimiento de voz (Whisper)
+- 🔊 Síntesis de voz (Orpheus)
+- 🖼️ Descripción de imágenes
+- 🌍 Multiidioma (ES, EN, PT)
+- 🔒 Offline con respuestas predefinidas
+- 📚 Historial persistente
+- ♿ Accesibilidad WCAG 2.1 AA
+
+---
+
+## 💡 Cómo Contribuir
+
+1. **Fork** este repositorio
+2. **Crea una rama** para tu feature: `git checkout -b feature/tu-mejora`
+3. **Commita cambios:** `git commit -m "Agrega tu mejora"`
+4. **Push** a tu fork: `git push origin feature/tu-mejora`
+5. **Abre un Pull Request**
+
+### Áreas de Contribución
+
+- ✨ Mejoras de accesibilidad
+- 🐛 Reportar y arreglar bugs
+- 📖 Documentación y tutoriales
+- 🎨 Diseño y UX
+- 🔧 Optimizaciones de rendimiento
+- 🌐 Internacionalización (más idiomas)
+
+---
+
+## 📜 Licencia
+
+Este proyecto se distribuye bajo la licencia indicada en el archivo `LICENSE` (MIT License).
+
+---
+
+## 👋 Créditos
+
+Desarrollado con ❤️ para la inclusión digital.
+
+**Jonax17** — Developer & Creator
+
+---
+
+## 📞 Contacto & Soporte
+
+- 🐛 **Issues:** Reporta bugs en [GitHub Issues](https://github.com/Jonax17/INCLU/issues)
+- 💬 **Discussions:** Abre un debate en [GitHub Discussions](https://github.com/Jonax17/INCLU/discussions)
+- 🌍 **Web:** Próximamente en [INCLU Landing](https://github.com/Jonax17/inclu-landing)
+
+---
+
+**Última actualización:** 29 de agosto de 2026 ✨
