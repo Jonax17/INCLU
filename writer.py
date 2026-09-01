@@ -16,7 +16,12 @@ from mediapipe.tasks.python.vision import HandLandmarker, HandLandmarkerOptions
 from mediapipe.tasks.python.vision.core.image import Image as MPImage, ImageFormat
 from text_predictor import TextPredictor
 
-MODEL_DIR = os.path.join(os.path.dirname(__file__), "model_landmarks")
+if getattr(sys, 'frozen', False):
+    BASE_DIR = sys._MEIPASS
+else:
+    BASE_DIR = os.path.dirname(__file__)
+
+MODEL_DIR = os.path.join(BASE_DIR, "model_landmarks")
 
 HAND_CONNECTIONS = [
     (0,1),(1,2),(2,3),(3,4),
@@ -634,4 +639,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"\nERROR: {e}")
+        input("\nPresiona ENTER para salir...")
+
